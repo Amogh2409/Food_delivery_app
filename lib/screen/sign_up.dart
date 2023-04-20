@@ -9,8 +9,9 @@ class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
 }
+
 class _SignUpState extends State<SignUp> {
-  bool loading=false;
+  bool loading = false;
   late UserCredential userCredential;
   RegExp regExp = RegExp(SignUp.pattern.toString());
   TextEditingController firstName = TextEditingController();
@@ -38,85 +39,127 @@ class _SignUpState extends State<SignUp> {
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        globalKey.currentState.showSnackBar(
-          const SnackBar(
-            content: Text("The password provided is too weak."),
-          ),
-        );
+        // globalKey.currentState.showSnackBar(
+        //   const SnackBar(
+        //     content: Text("The password provided is too weak."),
+        //   ),
+        // );
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("The password provided is too weak."),
+        ));
       } else if (e.code == 'email-already-in-use') {
-        globalKey.currentState.showSnackBar(
-          const SnackBar(
-            content: Text("The account already exists for that email"),
-          ),
-        );
+        // globalKey.currentState.showSnackBar(
+        //   const SnackBar(
+        //     content: Text("The account already exists for that email"),
+        //   ),
+        // );
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("The account already exists for that email"),
+        ));
       }
     } catch (e) {
-      globalKey.currentState.showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
+      // globalKey.currentState.showSnackBar(
+      //   SnackBar(
+      //     content: Text(e.toString()),
+      //   ),
+      // );
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.toString()),
+      ));
       setState(() {
-        loading=false;
+        loading = false;
       });
     }
-      setState(() {
-        loading=false;
-      });
+    setState(() {
+      loading = false;
+    });
   }
 
   void validation() {
     if (firstName.text.trim().isEmpty) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text(
-            "firstName is Empty",
-          ),
+      // globalKey.currentState.showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       "firstName is Empty",
+      //     ),
+      //   ),
+      // );
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "firstName is Empty",
         ),
-      );
+      ));
       return;
     }
     if (lastName.text.trim().isEmpty) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text(
-            "lastName is Empty",
-          ),
+      // globalKey.currentState.showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       "lastName is Empty",
+      //     ),
+      //   ),
+      // );
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "lastName is Empty",
         ),
-      );
+      ));
       return;
     }
     if (email.text.trim().isEmpty) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Email is Empty",
-          ),
+      // globalKey.currentState.showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       "Email is Empty",
+      //     ),
+      //   ),
+      // );
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "Email is Empty",
         ),
-      );
+      ));
       return;
     } else if (!regExp.hasMatch(email.text)) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Please enter vaild Email",
-          ),
+      // globalKey.currentState.showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       "Please enter vaild Email",
+      //     ),
+      //   ),
+      // );
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "Please enter vaild Email",
         ),
-      );
+      ));
       return;
     }
     if (password.text.trim().isEmpty) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Password is Empty",
-          ),
+      // globalKey.currentState.showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       "Password is Empty",
+      //     ),
+      //   ),
+      // );
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "Password is Empty",
         ),
-      );
+      ));
       return;
     } else {
       setState(() {
-        loading=true;
+        loading = true;
       });
       sendData();
     }
@@ -193,35 +236,35 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
-             loading?const Row(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                CircularProgressIndicator(),
-               ],
-             )
-             :
-             Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  button(
-                    ontap: () {},
-                    buttonName: "Canel",
-                    color: Colors.grey,
-                    textColor: Colors.black,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  button(
-                    ontap: () {
-                      validation();
-                    },
-                    buttonName: "Register",
-                    color: Colors.red,
-                    textColor: Colors.white,
-                  ),
-                ],
-              )
+              loading
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CircularProgressIndicator(),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        button(
+                          ontap: () {},
+                          buttonName: "Canel",
+                          color: Colors.grey,
+                          textColor: Colors.black,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        button(
+                          ontap: () {
+                            validation();
+                          },
+                          buttonName: "Register",
+                          color: Colors.red,
+                          textColor: Colors.white,
+                        ),
+                      ],
+                    )
             ],
           ),
         ),

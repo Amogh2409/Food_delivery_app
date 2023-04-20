@@ -7,14 +7,11 @@ class LoginPage extends StatefulWidget {
 
   //key is used to identify the widget
 
-
-  
   static Pattern pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  
+
   @override
   _LoginPageState createState() => _LoginPageState();
-  
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -31,17 +28,23 @@ class _LoginPageState extends State<LoginPage> {
           email: email.text, password: password.text);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        globalKey.currentState.showSnackBar(
-          const SnackBar(
-            content: Text('No user found for that email.'),
-          ),
-        );
+        // globalKey.currentState.showSnackBar(
+        //   const SnackBar(
+        //     content: Text('No user found for that email.'),
+        //   ),
+        // );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("No user found for that email."),
+        ));
       } else if (e.code == 'wrong-password') {
-        globalKey.currentState.showSnackBar(
-          const SnackBar(
-            content: Text('Wrong password provided for that user.'),
-          ),
-        );
+        // globalKey.currentState.showSnackBar(
+        //   const SnackBar(
+        //     content: Text('Wrong password provided for that user.'),
+        //   ),
+        // );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Wrong password provided for that user."),
+        ));
         setState(() {
           loadding = false;
         });
@@ -53,37 +56,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void validation() {
-    if (email.text.trim().isEmpty ||
-         password.text.trim().isEmpty) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text("All Field is Empty"),
-        ),
-      );
+    if (email.text.trim().isEmpty || password.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("All Field is Empty"),
+      ));
     }
     if (email.text.trim().isEmpty) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text("Email is Empty"),
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Email is Empty"),
+      ));
       return;
     } else if (!regExp.hasMatch(email.text)) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Please enter vaild Email",
-          ),
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please enter vaild Email"),
+      ));
       return;
     }
     if (password.text.trim().isEmpty) {
-      globalKey.currentState.showSnackBar(
-        const SnackBar(
-          content: Text("Password is Empty"),
-        ),
-      );
+      // globalKey.currentState.showSnackBar(
+      //   const SnackBar(
+      //     content: Text("Password is Empty"),
+      //   ),
+      // );
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Password is Empty"),
+      ));
       return;
     } else {
       setState(() {
@@ -162,9 +160,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Text(
                   "New user?",
                   style: TextStyle(color: Colors.grey),
